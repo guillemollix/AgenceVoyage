@@ -1,0 +1,51 @@
+bootstrap_menu:
+  menus:
+    main:
+      items:
+        all:
+          label: 'Toutes les C&C'
+          route: 'room_index'
+        region:
+          label: 'Parcourir les régions'
+          route: 'region_index'
+        likes:
+          label: 'Voir vos favoris'
+          route: 'room_likes'
+        owners:
+          label: 'Liste des Propriétaires'
+          route: 'owner_index'
+          roles: [ 'ROLE_ADMIN' ]
+        client:
+          label: 'Liste des clients'
+          route: 'client_index'
+          roles: [ 'ROLE_ADMIN' ]
+
+    anonymousaccount:
+      items:
+        account:
+          label: 'Compte'
+          items:
+            login:
+              label: 'Se connecter'
+              route: 'app_login'
+            register:
+              label: "S'enregistrer"
+              route: 'app_register'
+    account:
+      items:
+        account:
+          label: 'Compte'
+          items:
+            owner:
+              label: 'Devenir propriétaire'
+              route: 'owner_new'
+              roles: [ 'ROLE_USER' ]
+            client:
+              label: 'Devenir client'
+              route: 'client_new'
+              roles: [ 'ROLE_USER' ]
+            logout:
+              label: 'Se Déconnecter'
+              route: 'app_logout'
+              roles: [ 'ROLE_USER' ]
+          

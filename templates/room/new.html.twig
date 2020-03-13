@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une chambre{% endblock %}
+
+{% block stylesheets %}
+<style type='text/css'>
+	h1{
+		text-align: center;
+		text-decoration: underline;
+		text-decoration-color: orange;
+		-webkit-text-stroke: 1px orange;
+	}
+	
+	
+	a{
+		color: yellow;
+	}
+	a:hover{
+		color: yellow;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+    <h1>Créer une chambre</h1>
+
+	<div style="text-align:center;">
+    {{ include('room/_form.html.twig') }}
+
+    <a href="{{ path('room_index') }}">Retour à la liste</a>
+    </div>
+{% endblock %}

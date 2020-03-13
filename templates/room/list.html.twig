@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Chambres{% endblock %}
+
+{% block stylesheets %}
+<style type='text/css'>
+	thead{
+		color: yellow;
+		font-size: 20px;
+		font-weight: bold;
+		-webkit-text-stroke: 1px orange;
+	}
+	
+	tbody{
+		color: yellow;
+		font-size: 17px;
+	}
+	
+	h1{
+		text-align: center;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-decoration: underline;
+		text-decoration-color: orange;
+		-webkit-text-stroke: 1px orange;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+
+    {% block condition %}<h1>Liste des Chambres</h1>{% endblock %}
+
+    <table class="table">
+            <thead>
+                <tr>
+                    <th> Résumé </th>
+                    <th> Description </th>
+                    <th> Capacité </th>
+                    <th> Superficie </th>
+                    <th> Prix (/nuit)</th>
+                    <th> Addresse </th>
+                    <th> Propriétaire </th>
+                    <td> &nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+            {%  for room in rooms %}
+                <tr>
+                    <td> {{ room.summary }} </td>
+                    <td> {{ room.description }} </td>
+                    <td> {{ room.capacity }} personne(s)</td>
+                    <td> {{ room.superficy }} m²</td>
+                    <td> {{ room.price }} €</td>
+                    <td> {{ room.address }} </td>
+                    <td> {{ room.owner }} </td>
+                    <td>
+                        <a href="{{ path('room_show', {'id': room.id}) }}">Montrer</a>
+                        
+                        {%  if app.user %}
+                            {% if app.user.owner == room.owner or app.user in admins %}<a href="{{ path('room_edit', {'id': room.id}) }}">Éditer</a>{% endif %}
+                        {% endif %}
+                        {% block likes %}
+                            {% if room.id in likes %}
+                                <a href="{{ path('room_like', {'id': room.id}) }}"><img alt="Je n'aime plus cette chambre" src="{{ asset('/ressources/img/full_heart.png') }}", width=20px height=20px></a>
+                            {% else %}
+                                <a href="{{ path('room_like', {'id': room.id}) }}"><img alt="J'aime cette chambre" src="{{ asset('/ressources/img/empty_heart.png') }}", width=20px height=20px></a>
+                            {% endif %}
+                        {% endblock %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Pas de chambre</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+    {% if app.user %}
+        {% if app.user.owner %}
+            <a href="{{ path('room_new') }}">Créer une nouvelle chambre</a>
+        {% else %}
+            <p>Veuillez devenir propriétaire pour créer une nouvelle chambre</p>
+        {% endif %}
+    {% else %}
+        <p>Veuillez créer un compte et devenir propriétaire pour créer une nouvelle chambre</p>
+    {% endif %}
+{% endblock %}

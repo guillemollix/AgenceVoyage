@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue !{% endblock %}
+
+{% block stylesheets %}
+<style type='text/css'>
+	img{
+		margin-left:25px;
+		margin-top:25px;}
+
+    #flash {
+        text-align: center;
+        background-color: yellow;
+        color: black;
+    }
+    h2{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 37px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<img src='{{ asset('/ressources/img/logo.png') }}' alt='Couettes & Cafés'>
+    <h2>Découvrez un nouveau style de tourisme</h2>
+
+    {% for flash_message in app.session.flashBag.get('info') %}
+        <div id="flash" class="flash-warning" style="text-align:center;">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('alert') %}
+        <div class="alert alert-success", style="text-align: center;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+{% endblock %}

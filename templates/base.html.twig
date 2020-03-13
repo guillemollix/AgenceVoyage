@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <meta charset="UTF-8">
+        <link rel="icon" href={{ asset('/ressources/img/icon.png') }}>
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <!-- Bootstrap core CSS -->
+			<link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+		<!-- Custom styles for this template -->
+			<link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
+		<style type="text/css">
+    		body{
+    			
+    			background-image: url({{ asset('/ressources/img/background.jpg')}});
+    			background-repeat: no-repeat;
+  				background-size: cover;
+  				color: yellow;
+  				font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;    
+  									
+    		}
+    		
+    		a{
+				color: yellow;
+			}
+        	a:hover{
+        		color: yellow;
+        		-webkit-text-stroke: 1px orange;
+        	}
+		</style>
+        {% block stylesheets %}{% endblock %}
+        	
+    </head>
+    
+    <body>
+        <header>
+    		{% block menu %}
+    				{# Collect the nav links, forms, and other content for toggling #}
+    				  <!-- Navigation -->
+                      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                        <div class="container">
+                          <a class="navbar-brand" href="{{ path('home') }}">C&C</a>
+                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarsMainDefault">
+                            <ul class="navbar-nav mr-auto">
+                              {{ render_bootstrap_menu('main') }}
+                            </ul>
+                          </div>
+                          
+                          {% if app.user %}
+                          <div class="collapse navbar-collapse" id="navbarsAccountDefault">
+                            <ul class="navbar-nav ml-auto">
+                              {{ render_bootstrap_menu('account') }}
+                            </ul>
+                          </div>
+                          {% else %}
+                          <div class="collapse navbar-collapse" id="navbarsAnonAccountDefault">
+                            <ul class="navbar-nav ml-auto">
+                              {{ render_bootstrap_menu('anonymousaccount') }}
+                            </ul>
+                          </div>
+                          {% endif %}
+                          
+                        </div>
+                      </nav>
+    				
+    		{% endblock %} {# menu #}
+             </header>
+
+        {%  block alerts %}
+            {% for type, messages in app.session.flashBag.all %}
+                {% for message in messages %}
+                    {%if type == 'error'%} {% set type = 'danger' %} {%endif%}
+                    {%if type == 'message'%} {% set type = 'info' %} {%endif%}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <p>{{ message|raw }}</p>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %} {# alerts #}
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        
+        <!-- Bootstrap core JavaScript -->
+			<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+			<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        
+    </body>
+</html>

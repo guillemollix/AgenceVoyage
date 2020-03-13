@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chambre{% endblock %}
+
+{% block stylesheets %}
+<style type="text/css">
+	h1{
+		text-align: center;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-decoration: underline;
+		text-decoration-color: orange;
+		-webkit-text-stroke: 1px orange;
+	}
+	
+	table, th, td {
+		border-top: 0px;
+  		border: 1px solid yellow;
+	}
+	
+	
+</style>
+{% endblock %}
+
+{% block body %}
+    <h1>Détail de la chambre</h1>
+
+    <table class="table" style="color: yellow;">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ room.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom de la Chambre</th>
+                <td>{{ room.summary }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ room.description }}</td>
+            </tr>
+            <tr>
+                <th>Capacité</th>
+                <td>{{ room.capacity }} personnes</td>
+            </tr>
+            <tr>
+                <th>Superficie</th>
+                <td>{{ room.superficy }} m²</td>
+            </tr>
+            <tr>
+                <th>Prix (/nuit)</th>
+                <td>{{ room.price }} €</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ room.address }}</td>
+            </tr>
+            <tr>
+            	<th>Image</th>
+            	<td><img src="{{ vich_uploader_asset(room, 'imageFile') }}"/></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align:center;">
+    {% if app.user %}
+        {% if app.user.client %}
+            <a href="{{ path('reservation_new', {'room_id': room.id}) }}">Réserver cette chambre</a>
+        {% else %}
+            <a href="{{ path('client_new') }}">Devenez client avant de reserver cette chambre</a>
+        {% endif %}
+    {% else %}
+        Connectez vous pour réserver cette chambre
+    {% endif %}
+    </div>
+
+    <h3>Commentaires :</h3>
+    {% for comment in comments %}
+    <blockquote class="blockquote">
+        <p class="mb-0">{{ comment.comment }}</p>
+        <footer class="blockquote-footer">{{ comment.user.email }}</footer>
+    </blockquote>
+    {% else %}
+        Il n'y a pas encore de commentaire :(
+    {% endfor %}
+
+    <br/>
+    <br/>
+    {% if app.user %}
+        <h3>Ajouter un commentaire</h3>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+                <button class="btn btn-outline-warning">{{ button_label|default('Envoyer commentaire') }}</button>
+        {{ form_end(form) }}
+    {% else %}
+        <h3>Connectez vous pour ajouter un commentaire</h3>
+    {% endif %}
+
+
+    <div style="text-align:center;">
+        <a href="{{ path('room_index') }}">Retour à la liste</a>
+        <br/>
+        {% if app.user %}
+            {% if app.user.owner == room.owner or app.user in admins %}
+                <a href="{{ path('room_edit', {'id': room.id}) }}">Éditer</a>
+                {{ include('room/_delete_form.html.twig') }}
+            {% endif %}
+        {% endif %}
+
+	</div>
+{% endblock %}

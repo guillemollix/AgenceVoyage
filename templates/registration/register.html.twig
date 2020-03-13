@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+<style type='text/css'>
+	h1{
+		text-align: center;
+		text-decoration: underline;
+		text-decoration-color: orange;
+		-webkit-text-stroke: 1px orange;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+    <h1>Inscription</h1>
+
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email) }}
+    {{ form_row(registrationForm.plainPassword) }}
+    {{ form_row(registrationForm.agreeTerms) }}
+	<div style='text-align: center;'>
+        <button class="btn btn-outline-warning">Créer mon compte</button>
+    </div>
+    {{ form_end(registrationForm) }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devenir client{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center">Créer un profil de client</h1>
+
+    {{ include('client/_form.html.twig') }}
+    <div style="text-align: center">
+        <a href="{{ path('client_index') }}">Retour à la liste</a>
+    </div>
+{% endblock %}

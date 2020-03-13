@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les régions{% endblock %}
+
+{% block stylesheets %}
+    <style type='text/css'>
+        thead{
+            color: yellow;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        tbody{
+            color: yellow;
+            font-size: 17px;
+        }
+
+        h1{
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Toutes les régions !</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Présentation</th>
+                <th>Pays</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for region in regions %}
+            <tr>
+                <td>{{ region.id }}</td>
+                <td>{{ region.name }}</td>
+                <td>{{ region.presentation }}</td>
+                <td>{{ region.country }}</td>
+                <td>
+                    <a href="{{ path('region_show', {'id': region.id}) }}">Montrer</a>
+                    <a href={{ regionsUrl[region.id] }}>Chambres</a>
+                    {% if app.user in admins %}<a href="{{ path('region_edit', {'id': region.id}) }}">Éditer</a>{% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user in admins %}
+        <a href="{{ path('region_new') }}">Créer une nouvelle région</a>
+    {% endif %}
+{% endblock %}
